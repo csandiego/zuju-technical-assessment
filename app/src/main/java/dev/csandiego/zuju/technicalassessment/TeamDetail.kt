@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
 import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.data.MatchList
 import dev.csandiego.zuju.technicalassessment.data.Team
@@ -14,9 +15,9 @@ import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 @Composable
 fun TeamDetail(team: Team, matches: MatchList, modifier: Modifier = Modifier, onClick: (Match) -> Unit) {
     Column(modifier = modifier.fillMaxWidth()) {
+        AsyncImage(model = team.logo, contentDescription = team.name)
         Text(text = team.id)
         Text(text = team.name)
-        Text(text = team.logo)
         MatchListUi(list = matches, onClick = onClick)
     }
 }
