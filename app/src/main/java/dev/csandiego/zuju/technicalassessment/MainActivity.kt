@@ -10,9 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import dev.csandiego.zuju.technicalassessment.service.KtorService
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val service = KtorService()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,7 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+//                    Greeting("Android")
+                    TeamListScreen(service = service)
                 }
             }
         }
