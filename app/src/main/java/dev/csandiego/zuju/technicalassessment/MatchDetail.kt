@@ -1,5 +1,6 @@
 package dev.csandiego.zuju.technicalassessment
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -12,12 +13,16 @@ import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 @Composable
 fun MatchDetail(match: Match, modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
+        match.highlights.takeIf { !it.isNullOrBlank() && it != "null" }?.let {
+            Video(uri = Uri.parse(it))
+        }
         Text(text = match.date)
         Text(text = match.description)
         Text(text = match.home)
         Text(text = match.away)
-        Text(text = match.winner ?: "")
-        Text(text = match.highlights ?: "")
+        match.winner.takeIf { !it.isNullOrBlank() && it != "null" }?.let {
+            Text(text = it)
+        }
     }
 }
 
