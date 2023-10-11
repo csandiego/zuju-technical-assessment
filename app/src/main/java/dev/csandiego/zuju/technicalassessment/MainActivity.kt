@@ -26,7 +26,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    Greeting("Android")
-                    TeamListScreen(service = service)
+//                    TeamListScreen(service = service)
+                    MatchListScreen(service = service)
                 }
             }
         }
