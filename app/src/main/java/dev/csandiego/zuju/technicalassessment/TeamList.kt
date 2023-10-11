@@ -1,5 +1,6 @@
 package dev.csandiego.zuju.technicalassessment
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,10 +12,13 @@ import dev.csandiego.zuju.technicalassessment.data.Team
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
-fun TeamList(teams: List<Team>) {
+fun TeamList(teams: List<Team>, onClick: (Team) -> Unit) {
     LazyColumn {
         items(teams) {
-            Text(text = it.name, modifier = Modifier.fillMaxWidth())
+            Text(text = it.name, modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick(it) }
+            )
         }
     }
 }
@@ -50,6 +54,7 @@ fun TeamListPreview() {
         )
     )
     TechnicalAssessmentTheme {
-        TeamList(teams = teams)
+        TeamList(teams = teams) {
+        }
     }
 }

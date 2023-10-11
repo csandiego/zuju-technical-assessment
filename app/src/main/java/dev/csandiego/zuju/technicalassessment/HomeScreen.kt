@@ -3,6 +3,7 @@ package dev.csandiego.zuju.technicalassessment
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -19,19 +21,28 @@ import dev.csandiego.zuju.technicalassessment.service.TeamService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(teamService: TeamService, matchService: MatchService) {
-    val navController = rememberNavController()
+fun HomeScreen(
+    navController: NavHostController,
+    teamService: TeamService,
+    matchService: MatchService
+) {
+    val localNavController = rememberNavController()
     Scaffold(
+        topBar = {
+            TopAppBar (
+                title = { Text(text = "Zuju") }
+            )
+        },
         bottomBar = {
             BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val navBackStackEntry by localNavController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
                 listOf("teams", "matches").forEach {
                     BottomNavigationItem(
                         selected = it == currentRoute,
                         onClick = {
-                            navController.navigate(it) {
-                                popUpTo(navController.graph.findStartDestination().id) {
+                            localNavController.navigate(it) {
+                                popUpTo(localNavController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
@@ -46,15 +57,15 @@ fun HomeScreen(teamService: TeamService, matchService: MatchService) {
         }
     ) {
         NavHost(
-            navController = navController,
+            navController = localNavController,
             startDestination = "teams",
             modifier = Modifier.padding(it),
         ) {
             composable("teams") {
-                TeamListScreen(service = teamService)
+                TeamListScreen(navController = navController, service = teamService)
             }
             composable("matches") {
-                MatchListScreen(service = matchService)
+                MatchListScreen(navController = navController, service = matchService)
             }
         }
     }

@@ -12,12 +12,12 @@ import dev.csandiego.zuju.technicalassessment.data.Team
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
-fun TeamDetail(team: Team, matches: MatchList) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+fun TeamDetail(team: Team, matches: MatchList, modifier: Modifier = Modifier, onClick: (Match) -> Unit) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(text = team.id)
         Text(text = team.name)
         Text(text = team.logo)
-        MatchListUi(list = matches)
+        MatchListUi(list = matches, onClick = onClick)
     }
 }
 
@@ -72,6 +72,7 @@ fun TeamDetailPreview() {
         )
     )
     TechnicalAssessmentTheme {
-        TeamDetail(team = team, matches = matches)
+        TeamDetail(team = team, matches = matches) {
+        }
     }
 }

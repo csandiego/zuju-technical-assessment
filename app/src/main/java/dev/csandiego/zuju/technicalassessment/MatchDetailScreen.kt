@@ -10,25 +10,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import dev.csandiego.zuju.technicalassessment.data.MatchList
-import dev.csandiego.zuju.technicalassessment.data.Team
-import dev.csandiego.zuju.technicalassessment.service.MatchService
-
+import dev.csandiego.zuju.technicalassessment.data.Match
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TeamDetailScreen(navController: NavHostController, service: MatchService, team: Team) {
-    val matches by produceState<MatchList>(initialValue = MatchList(emptyList(), emptyList())) {
-        value = service.getTeamMatches(team)
-    }
+fun MatchDetailScreen(navController: NavHostController, match: Match) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = team.name) },
+                title = { Text(text = match.description) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate up")
@@ -37,8 +29,6 @@ fun TeamDetailScreen(navController: NavHostController, service: MatchService, te
             )
         },
     ) { padding ->
-        TeamDetail(team = team, matches = matches, modifier = Modifier.padding(padding)) {
-            navController.navigate("match?date=${it.date}&description=${it.description}&home=${it.home}&away=${it.away}&winner=${it.winner}&highlights=${it.highlights}")
-        }
+        MatchDetail(match = match, modifier = Modifier.padding(padding))
     }
 }

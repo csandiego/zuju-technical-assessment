@@ -1,28 +1,30 @@
 package dev.csandiego.zuju.technicalassessment
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.data.MatchList
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
-fun MatchListUi(list: MatchList) {
+fun MatchListUi(list: MatchList, onClick: (Match) -> Unit) {
     LazyColumn {
         item {
             Text(text = "Previous")
         }
         items(list.previous) {
-            Text(text = it.description)
+            Text(text = it.description, modifier = Modifier.clickable { onClick(it) })
         }
         item {
             Text(text = "Upcoming")
         }
         items(list.upcoming) {
-            Text(text = it.description)
+            Text(text = it.description, modifier = Modifier.clickable { onClick(it) })
         }
     }
 }
@@ -73,6 +75,7 @@ fun MatchListUiPreview() {
         )
     )
     TechnicalAssessmentTheme {
-        MatchListUi(list = list)
+        MatchListUi(list = list) {
+        }
     }
 }

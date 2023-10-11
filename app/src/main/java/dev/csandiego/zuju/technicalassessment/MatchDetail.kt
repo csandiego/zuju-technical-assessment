@@ -10,8 +10,8 @@ import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
-fun MatchDetail(match: Match) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+fun MatchDetail(match: Match, modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(text = match.date)
         Text(text = match.description)
         Text(text = match.home)
