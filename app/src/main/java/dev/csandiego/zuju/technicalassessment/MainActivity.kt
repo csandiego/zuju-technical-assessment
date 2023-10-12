@@ -10,20 +10,62 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
 import dev.csandiego.zuju.technicalassessment.data.Match
+import dev.csandiego.zuju.technicalassessment.data.Reminder
 import dev.csandiego.zuju.technicalassessment.data.Team
+import dev.csandiego.zuju.technicalassessment.room.TechnicalAssessmentDatabase
+import dev.csandiego.zuju.technicalassessment.service.DefaultReminderService
 import dev.csandiego.zuju.technicalassessment.service.KtorService
+import dev.csandiego.zuju.technicalassessment.service.ReminderService
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-    private val service = KtorService()
+    private lateinit var database: TechnicalAssessmentDatabase
+
+    private lateinit var reminderService: ReminderService
+
+    private val ktorService = KtorService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        database = Room.databaseBuilder(
+            applicationContext,
+            TechnicalAssessmentDatabase::class.java,
+            "database.db"
+        ).build()
+        lifecycleScope.launch {
+            database.reminderDao().insertAll(
+                Reminder(
+                    1,
+                    "2022-04-23T18:00:00.000Z",
+                    "Team Cool Eagles vs. Team Red Dragons",
+                    "Team Cool Eagles",
+                    "Team Red Dragons"
+                ),
+                Reminder(
+                    2,
+                    "2022-04-24T18:00:00.000Z",
+                    "Team Chill Elephants vs. Team Royal Knights",
+                    "Team Chill Elephants",
+                    "Team Royal Knights"
+                ),
+                Reminder(
+                    3,
+                    "2022-04-24T18:00:00.000Z",
+                    "Team Win Kings vs. Team Growling Tigers",
+                    "Team Win Kings",
+                    "Team Growling Tigers"
+                )
+            )
+        }
+        reminderService = DefaultReminderService(database.reminderDao())
         setContent {
             TechnicalAssessmentTheme {
                 // A surface container using the 'background' color from the theme
@@ -32,12 +74,17 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "home") {
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home",
+                        modifier = Modifier.fillMaxSize()
+                    ) {
                         composable("home") {
                             HomeScreen(
                                 navController = navController,
-                                teamService = service,
-                                matchService = service
+                                teamService = ktorService,
+                                matchService = ktorService,
+                                reminderService = reminderService
                             )
                         }
                         composable("team?id={id}&name={name}&logo={logo}") {
@@ -48,7 +95,7 @@ class MainActivity : ComponentActivity() {
                             )
                             TeamDetailScreen(
                                 navController = navController,
-                                service = service,
+                                service = ktorService,
                                 team = team
                             )
                         }
@@ -61,7 +108,7 @@ class MainActivity : ComponentActivity() {
                                 it.arguments!!.getString("winner"),
                                 it.arguments!!.getString("highlights")
                             )
-                            MatchDetailScreen(navController = navController, match = match)
+                            MatchDetailScreen(navController = navController, service = reminderService, match = match)
                         }
                     }
                 }

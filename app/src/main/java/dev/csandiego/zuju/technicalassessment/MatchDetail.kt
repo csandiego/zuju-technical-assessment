@@ -3,6 +3,7 @@ package dev.csandiego.zuju.technicalassessment
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +12,7 @@ import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
-fun MatchDetail(match: Match, modifier: Modifier = Modifier) {
+fun MatchDetail(match: Match, modifier: Modifier = Modifier, willBeReminded: Boolean = false, onClick: (Match) -> Unit = {}) {
     Column(modifier = modifier.fillMaxWidth()) {
         match.highlights.takeIf { !it.isNullOrBlank() && it != "null" }?.let {
             Video(uri = Uri.parse(it))
@@ -22,6 +23,9 @@ fun MatchDetail(match: Match, modifier: Modifier = Modifier) {
         Text(text = match.away)
         match.winner.takeIf { !it.isNullOrBlank() && it != "null" }?.let {
             Text(text = it)
+        }
+        Button(onClick = { onClick(match) }) {
+            Text(text = if (willBeReminded) "Don't remind" else "Remind")
         }
     }
 }
