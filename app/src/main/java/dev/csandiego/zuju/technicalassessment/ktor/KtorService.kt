@@ -1,9 +1,11 @@
-package dev.csandiego.zuju.technicalassessment.service
+package dev.csandiego.zuju.technicalassessment.ktor
 
 import dev.csandiego.zuju.technicalassessment.data.MatchList
 import dev.csandiego.zuju.technicalassessment.data.MatchPayload
 import dev.csandiego.zuju.technicalassessment.data.Team
 import dev.csandiego.zuju.technicalassessment.data.TeamPayload
+import dev.csandiego.zuju.technicalassessment.service.MatchService
+import dev.csandiego.zuju.technicalassessment.service.TeamService
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android

@@ -1,4 +1,4 @@
-package dev.csandiego.zuju.technicalassessment
+package dev.csandiego.zuju.technicalassessment.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

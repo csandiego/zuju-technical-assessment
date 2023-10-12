@@ -1,4 +1,4 @@
-package dev.csandiego.zuju.technicalassessment.service
+package dev.csandiego.zuju.technicalassessment.ktor
 
 import dev.csandiego.zuju.technicalassessment.data.Team
 import io.ktor.serialization.JsonConvertException

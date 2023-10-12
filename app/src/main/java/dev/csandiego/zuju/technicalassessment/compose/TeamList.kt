@@ -1,4 +1,4 @@
-package dev.csandiego.zuju.technicalassessment
+package dev.csandiego.zuju.technicalassessment.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package dev.csandiego.zuju.technicalassessment
+package dev.csandiego.zuju.technicalassessment.compose
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons

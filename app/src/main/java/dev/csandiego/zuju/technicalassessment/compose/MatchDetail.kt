@@ -1,4 +1,4 @@
-package dev.csandiego.zuju.technicalassessment
+package dev.csandiego.zuju.technicalassessment.compose
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column

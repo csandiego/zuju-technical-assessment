@@ -15,12 +15,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import dev.csandiego.zuju.technicalassessment.compose.HomeScreen
+import dev.csandiego.zuju.technicalassessment.compose.MatchDetailScreen
+import dev.csandiego.zuju.technicalassessment.compose.TeamDetailScreen
 import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.data.Reminder
 import dev.csandiego.zuju.technicalassessment.data.Team
 import dev.csandiego.zuju.technicalassessment.room.TechnicalAssessmentDatabase
 import dev.csandiego.zuju.technicalassessment.service.DefaultReminderService
-import dev.csandiego.zuju.technicalassessment.service.KtorService
+import dev.csandiego.zuju.technicalassessment.ktor.KtorService
 import dev.csandiego.zuju.technicalassessment.service.ReminderService
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 import kotlinx.coroutines.launch
