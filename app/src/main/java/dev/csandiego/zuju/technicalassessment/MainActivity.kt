@@ -10,23 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
 import dev.csandiego.zuju.technicalassessment.compose.HomeScreen
 import dev.csandiego.zuju.technicalassessment.compose.MatchDetailScreen
 import dev.csandiego.zuju.technicalassessment.compose.TeamDetailScreen
 import dev.csandiego.zuju.technicalassessment.data.Match
-import dev.csandiego.zuju.technicalassessment.data.Reminder
 import dev.csandiego.zuju.technicalassessment.data.Team
+import dev.csandiego.zuju.technicalassessment.ktor.KtorService
 import dev.csandiego.zuju.technicalassessment.room.TechnicalAssessmentDatabase
 import dev.csandiego.zuju.technicalassessment.service.DefaultReminderService
-import dev.csandiego.zuju.technicalassessment.ktor.KtorService
 import dev.csandiego.zuju.technicalassessment.service.ReminderService
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -38,36 +34,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        database = Room.databaseBuilder(
-            applicationContext,
-            TechnicalAssessmentDatabase::class.java,
-            "database.db"
-        ).build()
-        lifecycleScope.launch {
-            database.reminderDao().insertAll(
-                Reminder(
-                    1,
-                    "2022-04-23T18:00:00.000Z",
-                    "Team Cool Eagles vs. Team Red Dragons",
-                    "Team Cool Eagles",
-                    "Team Red Dragons"
-                ),
-                Reminder(
-                    2,
-                    "2022-04-24T18:00:00.000Z",
-                    "Team Chill Elephants vs. Team Royal Knights",
-                    "Team Chill Elephants",
-                    "Team Royal Knights"
-                ),
-                Reminder(
-                    3,
-                    "2022-04-24T18:00:00.000Z",
-                    "Team Win Kings vs. Team Growling Tigers",
-                    "Team Win Kings",
-                    "Team Growling Tigers"
-                )
-            )
-        }
+        database = TechnicalAssessmentDatabase.getInstance(applicationContext)
         reminderService = DefaultReminderService(database.reminderDao())
         setContent {
             TechnicalAssessmentTheme {
@@ -86,8 +53,7 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 navController = navController,
                                 teamService = ktorService,
-                                matchService = ktorService,
-                                reminderService = reminderService
+                                matchService = ktorService
                             )
                         }
                         composable("team?id={id}&name={name}&logo={logo}") {
@@ -111,7 +77,11 @@ class MainActivity : ComponentActivity() {
                                 it.arguments!!.getString("winner"),
                                 it.arguments!!.getString("highlights")
                             )
-                            MatchDetailScreen(navController = navController, service = reminderService, match = match)
+                            MatchDetailScreen(
+                                navController = navController,
+                                service = reminderService,
+                                match = match
+                            )
                         }
                     }
                 }

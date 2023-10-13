@@ -5,9 +5,16 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReminderService {
 
-    suspend fun insert(reminder: Reminder)
+    suspend fun insert(reminder: Reminder): Long
 
     suspend fun delete(reminder: Reminder)
 
-    fun getAllAsFlow(): Flow<List<Reminder>>
+    fun flowByDateDescriptionHomeAway(
+        date: String,
+        description: String,
+        home: String,
+        away: String
+    ): Flow<Reminder?>
+
+    suspend fun get(id: Long): Reminder?
 }

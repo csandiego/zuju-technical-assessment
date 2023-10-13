@@ -17,7 +17,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.csandiego.zuju.technicalassessment.service.MatchService
-import dev.csandiego.zuju.technicalassessment.service.ReminderService
 import dev.csandiego.zuju.technicalassessment.service.TeamService
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,8 +24,7 @@ import dev.csandiego.zuju.technicalassessment.service.TeamService
 fun HomeScreen(
     navController: NavHostController,
     teamService: TeamService,
-    matchService: MatchService,
-    reminderService: ReminderService
+    matchService: MatchService
 ) {
     val localNavController = rememberNavController()
     Scaffold(
@@ -39,7 +37,7 @@ fun HomeScreen(
             BottomNavigation {
                 val navBackStackEntry by localNavController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
-                listOf("teams", "matches", "reminders").forEach {
+                listOf("teams", "matches").forEach {
                     BottomNavigationItem(
                         selected = it == currentRoute,
                         onClick = {
@@ -68,9 +66,6 @@ fun HomeScreen(
             }
             composable("matches") {
                 MatchListScreen(navController = navController, service = matchService)
-            }
-            composable("reminders") {
-                ReminderListScreen(service = reminderService)
             }
         }
     }

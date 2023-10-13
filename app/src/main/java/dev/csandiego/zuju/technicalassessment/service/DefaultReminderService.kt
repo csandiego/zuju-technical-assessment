@@ -6,13 +6,18 @@ import kotlinx.coroutines.flow.Flow
 
 class DefaultReminderService(private val dao: ReminderDao) : ReminderService {
 
-    override suspend fun insert(reminder: Reminder) {
-        dao.insert(reminder)
-    }
+    override suspend fun insert(reminder: Reminder): Long = dao.insert(reminder)
 
     override suspend fun delete(reminder: Reminder) {
         dao.delete(reminder)
     }
 
-    override fun getAllAsFlow(): Flow<List<Reminder>> = dao.getAllAsFlow()
+    override fun flowByDateDescriptionHomeAway(
+        date: String,
+        description: String,
+        home: String,
+        away: String
+    ): Flow<Reminder?> = dao.flowByDateDescriptionHomeAway(date, description, home, away)
+
+    override suspend fun get(id: Long): Reminder? = dao.get(id)
 }

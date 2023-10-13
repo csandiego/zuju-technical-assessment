@@ -25,6 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".ReminderBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="dev.csandiego.zuju.technicalassessment.action.REMIND" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

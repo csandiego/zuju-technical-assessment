@@ -12,14 +12,19 @@ import kotlinx.coroutines.flow.Flow
 interface ReminderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg reminders: Reminder)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(reminder: Reminder)
+    suspend fun insert(reminder: Reminder): Long
 
     @Delete
     suspend fun delete(reminder: Reminder)
 
-    @Query("SELECT * FROM reminder")
-    fun getAllAsFlow(): Flow<List<Reminder>>
+    @Query("SELECT * FROM reminder WHERE date = :date AND description = :description AND home = :home AND away = :away")
+    fun flowByDateDescriptionHomeAway(
+        date: String,
+        description: String,
+        home: String,
+        away: String
+    ): Flow<Reminder?>
+
+    @Query("SELECT * FROM reminder WHERE id = :id")
+    suspend fun get(id: Long): Reminder?
 }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Reminder(
     @PrimaryKey
-    val id: Int,
+    val id: Long,
     val date: String,
     val description: String,
     val home: String,
