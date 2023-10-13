@@ -1,9 +1,14 @@
 package dev.csandiego.zuju.technicalassessment.compose
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,9 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import dev.csandiego.zuju.technicalassessment.ReminderBroadcastReceiver
@@ -27,6 +35,7 @@ import dev.csandiego.zuju.technicalassessment.data.Reminder
 import dev.csandiego.zuju.technicalassessment.service.ReminderService
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MatchDetailScreen(navController: NavHostController, service: ReminderService, match: Match) {
@@ -38,6 +47,11 @@ fun MatchDetailScreen(navController: NavHostController, service: ReminderService
         match.away
     ).collectAsStateWithLifecycle(initialValue = null)
     val scope = rememberCoroutineScope()
+    val notificationManager = NotificationManagerCompat.from(context)
+    var notificationEnabled by mutableStateOf(notificationManager.areNotificationsEnabled())
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+        notificationEnabled = notificationManager.areNotificationsEnabled()
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -56,7 +70,13 @@ fun MatchDetailScreen(navController: NavHostController, service: ReminderService
         MatchDetail(
             match = match,
             modifier = Modifier.padding(padding),
-            willBeReminded = reminder != null
+            willBeReminded = reminder != null,
+            notificationEnabled = notificationEnabled,
+            onAllowNotification = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
         ) {
             scope.launch {
                 if (reminder == null) {

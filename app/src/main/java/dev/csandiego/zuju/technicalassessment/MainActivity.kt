@@ -1,5 +1,9 @@
 package dev.csandiego.zuju.technicalassessment
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_HIGH
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,6 +40,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         database = TechnicalAssessmentDatabase.getInstance(applicationContext)
         reminderService = DefaultReminderService(database.reminderDao())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel("Default", "Default", IMPORTANCE_HIGH).apply {
+                description = "Default Channel"
+            }.let {
+                val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                manager.createNotificationChannel(it)
+            }
+        }
         setContent {
             TechnicalAssessmentTheme {
                 // A surface container using the 'background' color from the theme

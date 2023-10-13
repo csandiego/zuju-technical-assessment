@@ -12,7 +12,14 @@ import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
-fun MatchDetail(match: Match, modifier: Modifier = Modifier, willBeReminded: Boolean = false, onClick: (Match) -> Unit = {}) {
+fun MatchDetail(
+    match: Match,
+    modifier: Modifier = Modifier,
+    willBeReminded: Boolean = false,
+    notificationEnabled: Boolean = false,
+    onAllowNotification: () -> Unit = {},
+    onClick: (Match) -> Unit = {}
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         match.highlights.takeIf { !it.isNullOrBlank() && it != "null" }?.let {
             Video(uri = Uri.parse(it))
@@ -26,6 +33,11 @@ fun MatchDetail(match: Match, modifier: Modifier = Modifier, willBeReminded: Boo
         }
         Button(onClick = { onClick(match) }) {
             Text(text = if (willBeReminded) "Don't remind" else "Remind")
+        }
+        if (!notificationEnabled) {
+            Button(onClick = { onAllowNotification() }) {
+                Text(text = "Allow Notification")
+            }
         }
     }
 }
