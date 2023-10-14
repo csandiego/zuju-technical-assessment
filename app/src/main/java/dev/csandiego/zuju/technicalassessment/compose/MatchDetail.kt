@@ -16,8 +16,6 @@ fun MatchDetail(
     match: Match,
     modifier: Modifier = Modifier,
     willBeReminded: Boolean = false,
-    notificationEnabled: Boolean = false,
-    onAllowNotification: () -> Unit = {},
     onClick: (Match) -> Unit = {}
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -33,11 +31,6 @@ fun MatchDetail(
         }
         Button(onClick = { onClick(match) }) {
             Text(text = if (willBeReminded) "Don't remind" else "Remind")
-        }
-        if (!notificationEnabled) {
-            Button(onClick = { onAllowNotification() }) {
-                Text(text = "Allow Notification")
-            }
         }
     }
 }
