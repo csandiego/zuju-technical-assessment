@@ -97,8 +97,8 @@ class MainActivity : ComponentActivity() {
                                 it.arguments!!.getString("description")!!,
                                 it.arguments!!.getString("home")!!,
                                 it.arguments!!.getString("away")!!,
-                                it.arguments!!.getString("winner"),
-                                it.arguments!!.getString("highlights")
+                                it.arguments!!.getString("winner")?.takeIf { it.isNotBlank() },
+                                it.arguments!!.getString("highlights")?.takeIf { it.isNotBlank() }
                             )
                             MatchDetailScreen(
                                 navController = navController,

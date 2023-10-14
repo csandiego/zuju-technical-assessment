@@ -2,7 +2,6 @@ package dev.csandiego.zuju.technicalassessment.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,9 +14,11 @@ import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 @Composable
 fun TeamDetail(team: Team, matches: MatchList, modifier: Modifier = Modifier, onClick: (Match) -> Unit) {
     Column(modifier = modifier.fillMaxWidth()) {
-        AsyncImage(model = team.logo, contentDescription = team.name)
-        Text(text = team.id)
-        Text(text = team.name)
+        AsyncImage(
+            model = team.logo,
+            contentDescription = team.name,
+            modifier = Modifier.fillMaxWidth()
+        )
         MatchListUi(list = matches, onClick = onClick)
     }
 }

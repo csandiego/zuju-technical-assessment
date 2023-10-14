@@ -88,7 +88,7 @@ private suspend fun createReminder(context: Context, service: ReminderService, m
         }
     }.let {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 2000, it)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, match.dateTime.time - 60000 * 15, it)
     }
 }
 

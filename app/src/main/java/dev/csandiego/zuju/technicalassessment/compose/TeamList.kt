@@ -2,23 +2,43 @@ package dev.csandiego.zuju.technicalassessment.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import dev.csandiego.zuju.technicalassessment.R
 import dev.csandiego.zuju.technicalassessment.data.Team
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
 @Composable
 fun TeamList(teams: List<Team>, onClick: (Team) -> Unit) {
     LazyColumn {
-        items(teams) {
-            Text(text = it.name, modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onClick(it) }
+        item {
+            Text(
+                text = stringResource(id = R.string.team_list_title),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp, 8.dp)
             )
+        }
+        items(teams) {
+            Text(
+                text = it.name,
+                fontSize = 18.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .clickable { onClick(it) }
+            )
+            Divider()
         }
     }
 }

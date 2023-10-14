@@ -14,6 +14,6 @@ fun MatchListScreen(navController: NavHostController, service: MatchService) {
     }
 
     MatchListUi(list = list) {
-        navController.navigate("match?date=${it.date}&description=${it.description}&home=${it.home}&away=${it.away}&winner=${it.winner}&highlights=${it.highlights}")
+        navController.navigate("match?date=${it.date}&description=${it.description}&home=${it.home}&away=${it.away}&winner=${it.winner ?: ""}&highlights=${it.highlights ?: ""}")
     }
 }

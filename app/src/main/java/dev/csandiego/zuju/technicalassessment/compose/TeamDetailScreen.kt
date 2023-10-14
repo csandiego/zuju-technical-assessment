@@ -38,7 +38,7 @@ fun TeamDetailScreen(navController: NavHostController, service: MatchService, te
         },
     ) { padding ->
         TeamDetail(team = team, matches = matches, modifier = Modifier.padding(padding)) {
-            navController.navigate("match?date=${it.date}&description=${it.description}&home=${it.home}&away=${it.away}&winner=${it.winner}&highlights=${it.highlights}")
+            navController.navigate("match?date=${it.date}&description=${it.description}&home=${it.home}&away=${it.away}&winner=${it.winner ?: ""}&highlights=${it.highlights ?: ""}")
         }
     }
 }
