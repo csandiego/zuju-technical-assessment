@@ -10,12 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dev.csandiego.zuju.technicalassessment.R
 import dev.csandiego.zuju.technicalassessment.service.MatchService
 import dev.csandiego.zuju.technicalassessment.service.TeamService
 
@@ -37,11 +39,11 @@ fun HomeScreen(
             BottomNavigation {
                 val navBackStackEntry by localNavController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
-                listOf("teams", "matches").forEach {
+                mapOf("teams" to R.string.teams, "matches" to R.string.matches).entries.forEach {
                     BottomNavigationItem(
-                        selected = it == currentRoute,
+                        selected = it.key == currentRoute,
                         onClick = {
-                            localNavController.navigate(it) {
+                            localNavController.navigate(it.key) {
                                 popUpTo(localNavController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
@@ -50,7 +52,7 @@ fun HomeScreen(
                             }
                         },
                         icon = { /*TODO*/ },
-                        label = { Text(text = it) }
+                        label = { Text(text = stringResource(id = it.value)) }
                     )
                 }
             }

@@ -7,7 +7,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import dev.csandiego.zuju.technicalassessment.R
 import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 
@@ -30,7 +32,11 @@ fun MatchDetail(
             Text(text = it)
         }
         Button(onClick = { onClick(match) }) {
-            Text(text = if (willBeReminded) "Don't remind" else "Remind")
+            if (willBeReminded) {
+                R.string.cancel_reminder
+            } else {
+                R.string.remind_me
+            }.let { Text(text = stringResource(id = it)) }
         }
     }
 }
