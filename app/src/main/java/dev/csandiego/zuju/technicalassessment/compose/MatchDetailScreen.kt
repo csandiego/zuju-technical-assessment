@@ -27,6 +27,7 @@ import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.data.Reminder
 import dev.csandiego.zuju.technicalassessment.service.ReminderService
 import kotlinx.coroutines.launch
+import java.util.Date
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,8 @@ fun MatchDetailScreen(navController: NavHostController, service: ReminderService
         MatchDetail(
             match = match,
             modifier = Modifier.padding(padding),
-            willBeReminded = reminder != null,
+            hasReminder = reminder != null,
+            allowRemindersAfter = Date()
         ) {
             scope.launch {
                 if (reminder == null) {

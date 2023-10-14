@@ -20,13 +20,15 @@ import dev.csandiego.zuju.technicalassessment.R
 import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
 fun MatchDetail(
     match: Match,
     modifier: Modifier = Modifier,
-    willBeReminded: Boolean = false,
+    hasReminder: Boolean = false,
+    allowRemindersAfter: Date = Date(),
     onClick: (Match) -> Unit = {}
 ) {
     val fmt = SimpleDateFormat("d LLLL yyyy h:mm a", Locale.ENGLISH)
@@ -94,16 +96,18 @@ fun MatchDetail(
             }
         }
         Box(modifier = Modifier.weight(1f))
-        Button(
-            onClick = { onClick(match) }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
-        ) {
-            if (willBeReminded) {
-                R.string.cancel_reminder
-            } else {
-                R.string.remind_me
-            }.let { Text(text = stringResource(id = it), fontSize = 18.sp) }
+        if (allowRemindersAfter < match.dateTime) {
+            Button(
+                onClick = { onClick(match) }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
+            ) {
+                if (hasReminder) {
+                    R.string.cancel_reminder
+                } else {
+                    R.string.remind_me
+                }.let { Text(text = stringResource(id = it), fontSize = 18.sp) }
+            }
         }
     }
 }

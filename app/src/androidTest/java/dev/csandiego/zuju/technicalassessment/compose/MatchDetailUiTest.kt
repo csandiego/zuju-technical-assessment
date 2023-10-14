@@ -8,6 +8,7 @@ import dev.csandiego.zuju.technicalassessment.data.Match
 import dev.csandiego.zuju.technicalassessment.ui.theme.TechnicalAssessmentTheme
 import org.junit.Rule
 import org.junit.Test
+import java.util.Calendar
 
 class MatchDetailUiTest {
 
@@ -17,7 +18,7 @@ class MatchDetailUiTest {
     @Test
     fun givenWillBeReminded_whenLoaded_thenShowCancelReminder() {
         val match = Match(
-            "2022-04-23T18:00:00.000Z",
+            "2024-04-23T18:00:00.000Z",
             "Team Cool Eagles vs. Team Red Dragons",
             "Team Cool Eagles",
             "Team Red Dragons",
@@ -27,7 +28,11 @@ class MatchDetailUiTest {
         with(composeTestRule) {
             setContent {
                 TechnicalAssessmentTheme {
-                    MatchDetail(match = match, willBeReminded = true)
+                    MatchDetail(
+                        match = match,
+                        hasReminder = true,
+                        allowRemindersAfter = Calendar.Builder().setDate(2023, 1, 1).build().time
+                    )
                 }
             }
             onNodeWithText(activity.getString(R.string.cancel_reminder)).assertExists()
@@ -37,7 +42,7 @@ class MatchDetailUiTest {
     @Test
     fun givenWillNotBeReminded_whenLoaded_thenDisplayRemindMe() {
         val match = Match(
-            "2022-04-23T18:00:00.000Z",
+            "2024-04-23T18:00:00.000Z",
             "Team Cool Eagles vs. Team Red Dragons",
             "Team Cool Eagles",
             "Team Red Dragons",
@@ -47,7 +52,11 @@ class MatchDetailUiTest {
         with(composeTestRule) {
             setContent {
                 TechnicalAssessmentTheme {
-                    MatchDetail(match = match, willBeReminded = false)
+                    MatchDetail(
+                        match = match,
+                        hasReminder = false,
+                        allowRemindersAfter = Calendar.Builder().setDate(2023, 1, 1).build().time
+                    )
                 }
             }
             onNodeWithText(activity.getString(R.string.remind_me)).assertExists()
