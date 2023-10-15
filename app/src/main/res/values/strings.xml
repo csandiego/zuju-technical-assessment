@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Technical Assessment</string>
-    <string name="remind_me">Remind Me</string>
-    <string name="cancel_reminder">Cancel Reminder</string>
+    <string name="remind_me">Remind me 15 mins before</string>
+    <string name="cancel_reminder">Cancel reminder</string>
     <string name="teams">Teams</string>
     <string name="matches">Matches</string>
     <string name="home">Home</string>

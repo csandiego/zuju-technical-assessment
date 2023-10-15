@@ -106,7 +106,7 @@ fun MatchDetail(
                     R.string.cancel_reminder
                 } else {
                     R.string.remind_me
-                }.let { Text(text = stringResource(id = it), fontSize = 18.sp) }
+                }.let { Text(text = stringResource(id = it).uppercase(), fontSize = 18.sp) }
             }
         }
     }
