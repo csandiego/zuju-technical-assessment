@@ -35,7 +35,7 @@ class MatchDetailUiTest {
                     )
                 }
             }
-            onNodeWithText(activity.getString(R.string.cancel_reminder)).assertExists()
+            onNodeWithText(activity.getString(R.string.cancel_reminder).uppercase()).assertExists()
         }
     }
 
@@ -59,7 +59,7 @@ class MatchDetailUiTest {
                     )
                 }
             }
-            onNodeWithText(activity.getString(R.string.remind_me)).assertExists()
+            onNodeWithText(activity.getString(R.string.remind_me).uppercase()).assertExists()
         }
     }
 }
